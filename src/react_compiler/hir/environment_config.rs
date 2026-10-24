@@ -109,6 +109,12 @@ pub struct EnvironmentConfig {
     /// For `validate_exhaustive_*_dependencies`: the dependencies that are inferred are in the order of their bytes.
     /// Upstream's are in that of `localeCompare`: `a`, `A`, `b`.
     pub dependencies_are_sorted_by_bytes: bool,
+    /// A block that can throw into a `catch` with a reactive operand decides which block runs next, as the test of an
+    /// `if` does, and what the `catch` clause binds is then reactive. To upstream only a test decides.
+    pub caught_throws_are_branches: bool,
+    /// In a function that has a `catch`, a branch that runs under a reactive branch decides reactively, whatever its
+    /// own test is. Upstream reads only the tests that a block depends on directly.
+    pub reactive_control_is_inherited: bool,
     pub validate_no_set_state_in_render: bool,
     pub enable_use_keyed_state: bool,
     pub validate_no_set_state_in_effects: bool,
@@ -168,6 +174,8 @@ impl Default for EnvironmentConfig {
             tagged_templates_are_always_called: false,
             react_is_known_by_its_module: true,
             dependencies_are_sorted_by_bytes: false,
+            caught_throws_are_branches: true,
+            reactive_control_is_inherited: true,
             validate_no_set_state_in_render: true,
             enable_use_keyed_state: false,
             validate_no_set_state_in_effects: false,
